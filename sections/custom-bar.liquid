@@ -1,0 +1,95 @@
+{% for block in section.blocks %}
+  {% case block.type %}
+    {% when 'announcement' %}
+      {% if block.settings.hideBar %}
+        <div class="custom-bar custom-bar--{{count}} ">
+          {% if template.name == 'index' or block.settings.justHomePage == false %}
+            <div class="custom-bar__text">
+              <span class="custom-bar_message-{{count}}">{{ block.settings.custom_bar }}</span>
+              {% comment %} for loop index  {% endcomment %}
+              <a href="{{block.settings.url}}" class="custom-bar_link">
+                <span class="custom-bar_message-{{count}}">{{ block.settings.custom_bar_link }}</span>
+              </a>
+            </div>
+            <div class="custom-bar__icon">X</div>
+          {% endif %}
+        </div>
+      {% endif %}
+
+      <style>
+        .custom-bar{
+          display:flex;
+          padding: 15px 0;
+          text-align: center;
+        }
+          .custom-bar-{{count}} {
+
+              background-color:{{block.settings.bar_color}};
+          }
+          .custom-bar_link{
+              text-decoration: none;
+          }
+          .custom-bar_message-{{count}}{
+              margin:0;
+              text-transform: uppercase;
+              color:{{block.settings.text_color}};
+        }
+      </style>
+  {% endcase %}
+{% endfor %}
+
+{% schema %}
+{
+  "name": "Custom Bar",
+  "max_blocks": 4,
+  "blocks": [
+    {
+      "type": "announcement",
+      "name": "Announcement",
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "justHomePage",
+          "default": false,
+          "label": "Home Page Only"
+        },
+        {
+          "type": "checkbox",
+          "id": "hideBar",
+          "default": true,
+          "label": "Show announcement"
+        },
+        {
+          "type": "text",
+          "id": "custom_bar_link",
+          "default": "Welcome to Irish Bar",
+          "label": "Bar link"
+        },
+        {
+          "type": "url",
+          "id": "url",
+          "label": "Change URL"
+        },
+        {
+          "type": "text",
+          "id": "custom_bar",
+          "default": "Hello From Dublin",
+          "label": "Bar text"
+        },
+        {
+          "type": "color",
+          "id": "bar_color",
+          "label": "Bar",
+          "default": "#ff6347"
+        },
+        {
+          "type": "color",
+          "id": "text_color",
+          "label": "Text",
+          "default": "#FFFFFF"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
