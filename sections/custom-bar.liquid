@@ -1,9 +1,9 @@
 {% for block in section.blocks %}
   {% case block.type %}
     {% when 'announcement' %}
-      {% if block.settings.hideBar %}
-        <div class="custom-bar custom-bar--{{ forloop.index }} ">
-          {% if template.name == 'index' or block.settings.justHomePage == false %}
+      {% if template.name == 'index' or block.settings.justHomePage == false %}
+        {% if block.settings.hideBar %}
+          <div class="custom-bar custom-bar--{{ forloop.index }} ">
             <div class="custom-bar__text">
               <span class="custom-bar_message--{{ forloop.index }}">{{ block.settings.custom_bar }}</span>
               <a href="{{ block.settings.url }}" class="custom-bar_link">
@@ -11,15 +11,17 @@
               </a>
             </div>
             <div class="custom-bar__icon">X</div>
-          {% endif %}
-        </div>
+          </div>
+        {% endif %}
       {% endif %}
 
       <style>
+        .custom-bar__text{
+        display:flex;
+        }
         .custom-bar{
           display:flex;
           justify-content:center;
-          padding: 15px 0;
           text-align: center;
         }
         .custom-bar--{{ forloop.index }} {
@@ -27,6 +29,7 @@
           }
         .custom-bar_link{
             text-decoration: none;
+            padding-left:10px;
           }
         .custom-bar_message--{{ forloop.index }}{
               margin:0;
@@ -80,9 +83,13 @@
           "label": "Show announcement"
         },
         {
-          "type": "text",
+          "type": "richtext",
+          "id": "custom_bar",
+          "label": "Bar text"
+        },
+        {
+          "type": "richtext",
           "id": "custom_bar_link",
-          "default": "Welcome to Irish Bar",
           "label": "Bar link"
         },
         {
@@ -90,12 +97,7 @@
           "id": "url",
           "label": "Change URL"
         },
-        {
-          "type": "text",
-          "id": "custom_bar",
-          "default": "Hello From Dublin",
-          "label": "Bar text"
-        },
+
         {
           "type": "color",
           "id": "bar_color",

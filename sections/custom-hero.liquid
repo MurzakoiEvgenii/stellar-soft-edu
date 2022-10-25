@@ -1,0 +1,179 @@
+<script src="{{ 'swiper.js' | asset_url }}" defer="defer"></script>
+
+<section class="hero ">
+  <div class="swiper mySwiper">
+    <div class="swiper-wrapper">
+      {% for block in section.blocks %}
+        <div class="swiper-slide ">
+          <img
+            class="hero-img"
+            src="{{ block.settings.large_img | image_url: width: 1300, height: 500, crop: 'center' }}"
+            loading="lazy"
+          >
+          <div class="hero-content hero--{{ block.id }}">
+            <h2 class="hero_heading">{{ block.settings.heading }}</h2>
+            <p class="hero_copy">{{ block.settings.copy }}</p>
+            <a href="https://www.google.com/" class="hero_btn hero_btn--{{ forloop.index }}">
+              {{- block.settings.button -}}
+            </a>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+    <div class="swiper-button-prev">&#160</div>
+    <div class="swiper-button-next">&#160</div>
+    <div class="swiper-pagination"></div>
+  </div>
+</section>
+{% for block in section.blocks %}
+  <style>
+    .swiper-slide {
+      color: white;
+      position: relative;
+      min-height: 500px;
+    }
+    .swiper-slide h2 {
+      color: white;
+    }
+
+    .hero-content {
+      max-width:300px;
+      display:flex;
+      justify-content:flex-start;
+      flex-wrap: wrap;
+      position: absolute;
+      top: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+     .hero--{{ block.id }}{
+      left: {{ block.settings.side-of-text }}%;
+      }
+
+    .hero_btn {
+      font-size: 15px;
+      width: fit-content;
+      padding: 5px 15px;
+      background: #0055ff;
+      color: #fff;
+      outline: none;
+      transition: 0.5s;
+      text-decoration: none;
+      text-transform: uppercase;
+    }
+    .hero_btn--{{ forloop.index }}{
+        border: {{ block.settings.border-width }}px solid black;
+        border-radius: {{ block.settings.btn-rad }}px;
+
+    }
+    .hero_btn:hover {
+      background: #0055dd;
+      color: #fff;
+      transition: 0.5s;
+    }
+
+    {% comment %} .hero-img {
+      background-image: url('{{ block.settings.small_img | image_url }}');
+      background-size: auto;
+    }
+    @media (min-width: 920px) {
+      .hero-img {
+        background-attachment: fixed;
+        background-size: cover;
+        background-image: url('{{ block.settings.large_img | image_url: width: 1080, height: 600 }}');
+      }
+    } {% endcomment %}
+  </style>
+{% endfor %}
+
+{% schema %}
+{
+  "name": "Custom Hero",
+  "max_blocks": 4,
+  "blocks": [
+    {
+      "name": "Slideshow",
+      "type": "slide",
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Bye Bye"
+        },
+        {
+          "type": "textarea",
+          "id": "copy",
+          "label": "Body Text",
+          "default": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. "
+        },
+        {
+          "type": "text",
+          "id": "button",
+          "label": "Button",
+          "default": "Hello"
+        },
+        {
+          "type": "radio",
+          "id": "btn-rad",
+          "label": "Button radius",
+          "options": [
+            {
+              "value": "20",
+              "label": "Radius"
+            },
+            {
+              "value": "0",
+              "label": "Square"
+            }
+          ],
+          "default": "20"
+        },
+        {
+          "type": "radio",
+          "id": "side-of-text",
+          "label": "Position of text",
+          "options": [
+            {
+              "value": "30",
+              "label": "Left"
+            },
+            {
+              "value": "70",
+              "label": "Right"
+            }
+          ],
+          "default": "30"
+        },
+        {
+          "type": "range",
+          "id": "border-width",
+          "label": "Border Width",
+          "default": 1,
+          "min": 1,
+          "max": 5,
+          "step": 1,
+          "unit": "px"
+        },
+        {
+          "type": "image_picker",
+          "id": "small_img",
+          "label": "Small Image"
+        },
+        {
+          "type": "image_picker",
+          "id": "large_img",
+          "label": "Large Image"
+        }
+      ]
+    }
+  ],
+
+  "presets": [
+    {
+      "name": "Hero",
+      "category": "Custom"
+    }
+  ]
+}
+{% endschema %}
