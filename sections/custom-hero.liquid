@@ -6,12 +6,12 @@
       {% for block in section.blocks %}
         <div class="swiper-slide ">
           <img
-            class="hero-img"
-            src="{{ block.settings.large_img | image_url: width: 1300, height: 500, crop: 'center' }}"
+            class="hero_img"
+            src="{{ block.settings.large_img | image_url: width: 1440, height: 500, crop: 'center' }}"
             loading="lazy"
           >
-          <div class="hero-content hero--{{ block.id }}">
-            <h2 class="hero_heading">{{ block.settings.heading }}</h2>
+          <div class="hero_content hero_content_hero--{{ forloop.index }}">
+            <h2 class="hero_heading hero_heading--{{ forloop.index }}">{{ block.settings.heading }}</h2>
             <p class="hero_copy">{{ block.settings.copy }}</p>
             <a href="https://www.google.com/" class="hero_btn hero_btn--{{ forloop.index }}">
               {{- block.settings.button -}}
@@ -28,15 +28,10 @@
 {% for block in section.blocks %}
   <style>
     .swiper-slide {
-      color: white;
       position: relative;
       min-height: 500px;
     }
-    .swiper-slide h2 {
-      color: white;
-    }
-
-    .hero-content {
+    .hero_content {
       max-width:300px;
       display:flex;
       justify-content:flex-start;
@@ -45,16 +40,17 @@
       top: 50%;
       transform: translate(-50%, -50%);
     }
-
-     .hero--{{ block.id }}{
+    .hero_content_hero--{{ forloop.index }}{
       left: {{ block.settings.side-of-text }}%;
+      color: {{ block.settings.text-color }};
       }
-
+    .hero_heading--{{ forloop.index }}{
+      color: {{ block.settings.heading-color }};
+      }
     .hero_btn {
       font-size: 15px;
       width: fit-content;
       padding: 5px 15px;
-      background: #0055ff;
       color: #fff;
       outline: none;
       transition: 0.5s;
@@ -62,27 +58,26 @@
       text-transform: uppercase;
     }
     .hero_btn--{{ forloop.index }}{
-        border: {{ block.settings.border-width }}px solid black;
-        border-radius: {{ block.settings.btn-rad }}px;
-
+      border: {{ block.settings.border-width }}px solid black;
+      border-radius: {{ block.settings.btn-rad }}px;
+      background: {{ block.settings.btn-color }};
     }
     .hero_btn:hover {
       background: #0055dd;
       color: #fff;
       transition: 0.5s;
     }
-
-    {% comment %} .hero-img {
+    {% comment %} .hero_img {
       background-image: url('{{ block.settings.small_img | image_url }}');
       background-size: auto;
     }
     @media (min-width: 920px) {
-      .hero-img {
+      .hero_img {
         background-attachment: fixed;
         background-size: cover;
         background-image: url('{{ block.settings.large_img | image_url: width: 1080, height: 600 }}');
       }
-    } {% endcomment %}
+    }{% endcomment %}
   </style>
 {% endfor %}
 
@@ -111,16 +106,16 @@
           "type": "text",
           "id": "button",
           "label": "Button",
-          "default": "Hello"
+          "default": "Push"
         },
         {
           "type": "radio",
           "id": "btn-rad",
-          "label": "Button radius",
+          "label": "Button shape",
           "options": [
             {
               "value": "20",
-              "label": "Radius"
+              "label": "Radial"
             },
             {
               "value": "0",
@@ -164,6 +159,24 @@
           "type": "image_picker",
           "id": "large_img",
           "label": "Large Image"
+        },
+        {
+          "type": "color",
+          "id": "btn-color",
+          "label": "Button color",
+          "default": "#0055ff"
+        },
+        {
+          "type": "color",
+          "id": "heading-color",
+          "label": "Heading color",
+          "default": "#FFFFFF"
+        },
+        {
+          "type": "color",
+          "id": "text-color",
+          "label": "Main text color",
+          "default": "#FFFFFF"
         }
       ]
     }
